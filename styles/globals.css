@@ -18,15 +18,15 @@ body {
 
 .scrollbar::-webkit-scrollbar-track {
     border-radius: 100vh;
-    background: #f7f4ed;
+    background: #46C35F;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-    background: #e0cbcb;
+    background: #46C35F;
     border-radius: 100vh;
-    border: 3px solid #f6f7ed;
+    border: 3px solid #46C35F;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #c0a0b9;
+    background: #46C35F;
 }
