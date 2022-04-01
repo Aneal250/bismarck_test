@@ -6,6 +6,7 @@ import StudentsList from '../components/StudentsList';
 export default function Home() {
 
 	const [ search, setSearch ] = useState(false)
+	const [ notfound, setFound ] = useState(false)
 
 	const [ filteredData, setFilteredData ] = useState([])
 
@@ -25,6 +26,8 @@ export default function Home() {
 
 	const HandleFilter = async () => {
 
+		setSearch(true);
+
 		try{
 			
 				let fd = new FormData();
@@ -41,7 +44,9 @@ export default function Home() {
 		
 			console.log(data.data.students);
 
-			setSearch(true)
+			console.log('students check', data.data);
+
+			
 
 			setFilteredData(data.data.students)
 
@@ -237,15 +242,20 @@ export default function Home() {
 					</div>
 
 					{search
-						? filteredData.map((student) => (
-								<StudentsList student={student} key={student.id} />
-						))
+						? filteredData.map((student) =>
+								filteredData ? (
+									<StudentsList student={student} key={student.id} />
+								) : (
+									<div className="grid grid-cols-1 gap-4 my-2 border-b-2 py-2 px-4 ">
+										<p className="text-center font-bold text-4xl text-red-500">
+											No Search Found
+										</p>
+									</div>
+								)
+						  )
 						: allStudentsData.map((student) => (
 								<StudentsList student={student} key={student.id} />
 						  ))}
-					
-
-					
 				</div>
 			</main>
 		</div>
