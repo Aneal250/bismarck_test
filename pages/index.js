@@ -5,6 +5,10 @@ import StudentsList from '../components/StudentsList';
 
 export default function Home() {
 
+	const [ search, setSearch ] = useState(false)
+
+	const [ filteredData, setFilteredData ] = useState([])
+
 	const [ allStudentsData, setAllStundentsData] = useState([])
 
 	const [ age, setAge ] = useState('')
@@ -18,6 +22,35 @@ export default function Home() {
 
 	const [ sex, setSex ] = useState('')
 
+
+	const HandleFilter = async () => {
+
+		try{
+			
+				let fd = new FormData();
+				fd.append('level', level)
+				fd.append('age', age)
+				fd.append('state', state)
+				fd.append('gender', sex)
+		
+				const { data } = await axios({
+						method: "post",
+						url: "https://testapiomniswift.herokuapp.com/api/filterData",
+						data: fd,
+			})
+		
+			console.log(data.data.students);
+
+			setSearch(true)
+
+			setFilteredData(data.data.students)
+
+		}catch(error){
+
+			console.log(error)
+		}
+
+	}
 
 	const FetchAllStudentsData = async () => {
 		try {
@@ -97,27 +130,21 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
-			<main className="mx-4 my-4 ">
-				<div className="font-bold text-4xl mx-12">
+			<main className="mx-4 my-2 ">
+				<div className="font-bold text-3xl mx-12">
 					<h1>Student Data Table</h1>
 				</div>
 
 				<div className="bg-white my-4 px-12 py-4 mx-12">
-					<h2 className="mb-12">Filter Student Table By:</h2>
+					<h2 className="mb-8">Filter Student Table By:</h2>
 					<div className="grid grid-cols-3 gap-8 ">
 						<div>
-							<div>
-								<span className="bg-white ml-8 z-10 -mt-8 block">Age</span>
-							</div>
-
-							{/* <option value="DEFAULT">Select Age</option>
-								<option value="products">Product</option>
-								<option value="services">Services</option> */}
 							<select
 								value={age}
 								onChange={(e) => setAge(e.target.value)}
 								className="input-select"
 							>
+								<option value="DEFAULT"> Select Age </option>
 								{fetchedAge.map((option) => (
 									<option value={option.age} key={option.id}>
 										{option.age}
@@ -127,14 +154,12 @@ export default function Home() {
 						</div>
 
 						<div>
-							<div>
-								<span className="bg-white ml-8 z-10 -mt-8 block">State</span>
-							</div>
 							<select
 								value={state}
 								onChange={(e) => setState(e.target.value)}
 								className="input-select"
 							>
+								<option value="DEFAULT"> Select State </option>
 								{fetchSate.map((option) => (
 									<option value={option.name} key={option.id}>
 										{option.name}
@@ -144,14 +169,12 @@ export default function Home() {
 						</div>
 
 						<div>
-							{/* <div>
-								<span className="bg-white ml-8 z-10 -mt-8 block">Age</span>
-							</div> */}
 							<select
 								value={level}
 								onChange={(e) => setLevel(e.target.value)}
 								className="input-select"
 							>
+								<option value="DEFAULT"> Select Level </option>
 								{fetchLevel.map((option) => (
 									<option value={option.level} key={option.id}>
 										{option.level}
@@ -161,20 +184,24 @@ export default function Home() {
 						</div>
 					</div>
 
-					<div className="grid grid-cols-3 gap-8 my-12">
+					<div className="grid grid-cols-3 gap-8 my-8">
 						<div>
 							<select
 								value={sex}
 								onChange={(e) => setSex(e.target.value)}
 								className="input-select"
 							>
+								<option value="DEFAULT"> Select Age </option>
 								<option value="male">male</option>
 								<option value="female">female</option>
 							</select>
 						</div>
 
 						<div className="">
-							<button className="py-2 text-lg px-32 bg-green-600 rounded text-white w-full">
+							<button
+								className="py-2 text-lg px-32 bg-green-600 rounded text-white w-full"
+								onClick={HandleFilter}
+							>
 								search
 							</button>
 						</div>
@@ -209,12 +236,16 @@ export default function Home() {
 						</div>
 					</div>
 
-					{
-					allStudentsData.map((student) => (
-						<StudentsList student={student} key={student.id} />
-					))
-		
-					}
+					{search
+						? filteredData.map((student) => (
+								<StudentsList student={student} key={student.id} />
+						))
+						: allStudentsData.map((student) => (
+								<StudentsList student={student} key={student.id} />
+						  ))}
+					
+
+					
 				</div>
 			</main>
 		</div>

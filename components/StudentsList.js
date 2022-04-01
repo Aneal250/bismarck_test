@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link';
 
 const StudentsList = ({ student }) => {
   return (
@@ -25,9 +26,13 @@ const StudentsList = ({ student }) => {
 				<p>{student.state}</p>
 			</div>
 			<div>
-				<button className="py-2 text-sm px-2 bg-green-600 rounded text-white">
-					Download Result
-				</button>
+                <Link href={`/${student.id}`}>
+                    <a>
+                        <button className="py-2 text-sm px-2 bg-green-600 rounded text-white">
+                            Download Result
+                        </button>
+                    </a>   
+                </Link>
 			</div>
 		</div>
 	);

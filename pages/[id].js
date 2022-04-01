@@ -1,15 +1,67 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import ResultsList from '../components/ResultsList';
 
 const Result = () => {
+
+	const [ studentDetails, setStudentsDetails ] = useState({})
+
+	const [ profile, setProfile ] = useState({})
+
+	const [ result, setResults ] = useState([])
+
+	const [ cummulative, setCummulative ] = useState({})
+
+	const router = useRouter();
+	const { id } = router.query;
+
+	const FetchStudentsDetails = async () => {
+
+		try {
+			const res = await axios.post(`https://testapiomniswift.herokuapp.com/api/viewResult/${id}`)
+			
+			
+			console.log(res.data)
+
+			setStudentsDetails(res.data)
+
+			console.log(res.data.data)
+
+			setProfile(res.data.data);
+
+
+			console.log(res.data.data.result)
+
+			setResults(res.data.data.result);
+
+			console.log(res.data.data.cummulative);
+
+			setCummulative(res.data.data.cummulative);
+			
+
+		}catch(error){
+
+		}
+	}
+
+	useEffect(() => {
+
+		FetchStudentsDetails()
+
+	}, [])
+
+
+
   return (
 		<div className="bg-white">
 			<section className="flex justify-center py-4 ">
-				<div class="flex py-4 w-[750px] flex-col">
+				<div className="flex py-4 w-[750px] flex-col">
 					<div className="flex mb-4">
-						<div class="flex-none w-48 h-14  p-4">
+						<div className="flex-none w-48 h-14  p-4">
 							<img src="/Logo.png" alt="Logo" />
 						</div>
-						<div class="flex-initial   grow p-4">
+						<div className="flex-initial   grow p-4">
 							<h2 className="text-center text-lg mb-2 ">
 								FREMONT COLLEGE OF EDUCATION
 							</h2>
@@ -24,9 +76,9 @@ const Result = () => {
 								Student First Semester Statement Of Result
 							</p>
 						</div>
-						<div class="flex-initial w-48 p-4">
+						<div className="flex-initial w-48 p-4">
 							<div className="flex justify-center">
-								<img src="/Passport.png" alt="" />
+								<img src={studentDetails.profile_picture} alt="" />
 							</div>
 						</div>
 					</div>
@@ -41,7 +93,7 @@ const Result = () => {
 								</div>
 
 								<div>
-									<p className="text-sm">Chukwuma Chijioke</p>
+									<p className="text-sm">{`${profile.firstname} ${profile.surname}`}</p>
 								</div>
 							</div>
 
@@ -51,7 +103,7 @@ const Result = () => {
 								</div>
 
 								<div>
-									<p className="text-sm">100 Level</p>
+									<p className="text-sm">{profile.level}</p>
 								</div>
 							</div>
 						</div>
@@ -62,7 +114,7 @@ const Result = () => {
 								</div>
 
 								<div>
-									<p className="text-sm">FCE/PGDE/2021/002</p>
+									<p className="text-sm">{profile.reg_no}</p>
 								</div>
 							</div>
 
@@ -72,7 +124,7 @@ const Result = () => {
 								</div>
 
 								<div>
-									<p className="text-sm">2022/2023 Session</p>
+									<p className="text-sm">{profile.session}</p>
 								</div>
 							</div>
 						</div>
@@ -101,110 +153,9 @@ const Result = () => {
 							</div>
 						</div>
 
-						<div className="grid grid-cols-7 gap-4  bg-gray-100 py-2 px-4 text-sm">
-							<div>
-								<p>1.</p>
-							</div>
-							<div>
-								<p>PDE 701</p>
-							</div>
-							<div className="col-span-2">
-								<p>History of Education</p>
-							</div>
-							<div>
-								<p>2</p>
-							</div>
-							<div>
-								<p>A</p>
-							</div>
-							<div>
-								<p>8</p>
-							</div>
-						</div>
-
-						<div className="grid grid-cols-7 gap-4 bg-white py-2 px-4 text-sm">
-							<div>
-								<p>1.</p>
-							</div>
-							<div>
-								<p>PDE 701</p>
-							</div>
-							<div className="col-span-2">
-								<p>History of Education</p>
-							</div>
-							<div>
-								<p>2</p>
-							</div>
-							<div>
-								<p>A</p>
-							</div>
-							<div>
-								<p>8</p>
-							</div>
-						</div>
-
-						<div className="grid grid-cols-7 gap-4 bg-white py-2 px-4 text-sm">
-							<div>
-								<p>1.</p>
-							</div>
-							<div>
-								<p>PDE 701</p>
-							</div>
-							<div className="col-span-2">
-								<p>History of Education</p>
-							</div>
-							<div>
-								<p>2</p>
-							</div>
-							<div>
-								<p>A</p>
-							</div>
-							<div>
-								<p>8</p>
-							</div>
-						</div>
-
-						<div className="grid grid-cols-7 gap-4 bg-white py-2 px-4 text-sm">
-							<div>
-								<p>1.</p>
-							</div>
-							<div>
-								<p>PDE 701</p>
-							</div>
-							<div className="col-span-2">
-								<p>History of Education</p>
-							</div>
-							<div>
-								<p>2</p>
-							</div>
-							<div>
-								<p>A</p>
-							</div>
-							<div>
-								<p>8</p>
-							</div>
-						</div>
-
-						<div className="grid grid-cols-7 gap-4 bg-white py-2 px-4 text-sm">
-							<div>
-								<p>1.</p>
-							</div>
-							<div>
-								<p>PDE 701</p>
-							</div>
-							<div className="col-span-2">
-								<p>History of Education</p>
-							</div>
-							<div>
-								<p>2</p>
-							</div>
-							<div>
-								<p>A</p>
-							</div>
-							<div>
-								<p>8</p>
-							</div>
-						</div>
+						{result.map((result) => (
+							<ResultsList result={result} key={result.coursecode} />
+						))}
 					</div>
 
 					{/* Summary Section */}
@@ -233,35 +184,35 @@ const Result = () => {
 
 						<div className="grid grid-cols-6 gap-4  bg-gray-100 py-2 px-4  text-sm">
 							<div>
-								<p>028</p>
+								<p>{cummulative.unts}</p>
 							</div>
 							<div>
-								<p>028</p>
+								<p>{cummulative.untd}</p>
 							</div>
 							<div>
-								<p>067</p>
+								<p>{cummulative.gpts}</p>
 							</div>
 							<div>
-								<p>067</p>
+								<p>{cummulative.gptd}</p>
 							</div>
 							<div>
-								<p>2.71</p>
+								<p>{cummulative.gpats}</p>
 							</div>
 							<div>
-								<p>2.71</p>
+								<p>{cummulative.gpatd}</p>
 							</div>
 						</div>
 					</div>
 
 					{/* Remark Section */}
 
-					<div className='w-[300px] mt-4'>
+					<div className="w-[300px] mt-4">
 						<p className="text-sm">
 							Remarks: <span className="text-bismarck ">Pass</span>
 						</p>
 
-                        <hr className='mt-16 bg-gray-200'/>
-                        <p className='text-sm'>Registrar</p>
+						<hr className="mt-16 bg-gray-200" />
+						<p className="text-sm">Registrar</p>
 					</div>
 				</div>
 			</section>
