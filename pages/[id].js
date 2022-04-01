@@ -27,20 +27,13 @@ const Result = () => {
 			const res = await axios.post(`https://testapiomniswift.herokuapp.com/api/viewResult/${id}`)
 			
 			
-			console.log(res.data)
+			
 
 			setStudentsDetails(res.data)
 
-			console.log(res.data.data)
-
 			setProfile(res.data.data);
 
-
-			console.log(res.data.data.result)
-
 			setResults(res.data.data.result);
-
-			console.log(res.data.data.cummulative);
 
 			setCummulative(res.data.data.cummulative);
 			

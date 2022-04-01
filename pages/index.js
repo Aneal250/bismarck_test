@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import StudentsList from '../components/StudentsList';
+import { errorToast } from '../components/Toast/Toast';
 
 export default function Home() {
 
@@ -53,6 +54,7 @@ export default function Home() {
 		}catch(error){
 
 			console.log(error)
+			errorToast("Could not Find any Match from the Database")
 		}
 
 	}
@@ -73,7 +75,7 @@ export default function Home() {
 		try {
 
 			const { data } = await axios.get("https://testapiomniswift.herokuapp.com/api/viewAllAges")		
-			console.log(data.data);
+			
 			setFetchedAge(data.data)
 			
 		}catch(error){
@@ -86,8 +88,9 @@ export default function Home() {
 		const FetchStateHandeler = async () => {
 			try {
 				const { data } = await axios.get("https://testapiomniswift.herokuapp.com/api/viewAllStates");
-				console.log(data.data);
+
 				setFetchedState(data.data);
+
 			} catch (error) {
 				console.log(error);
 			}
@@ -100,7 +103,8 @@ export default function Home() {
 					const { data } = await axios.get(
 						"https://testapiomniswift.herokuapp.com/api/viewAllLevels"
 					);
-					console.log(data.data);
+					
+					
 					setFetchedLevel(data.data);
 
 				} catch (error) {
